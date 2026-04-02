@@ -1,76 +1,110 @@
-Forecast de Demanda Eléctrica (Argentina)
-*******************************************************************************************************************************************
-Descripción
-Este proyecto desarrolla un modelo predictivo de demanda eléctrica diaria en Argentina utilizando variables climáticas y de calendario.
-El objetivo es construir un modelo simple, interpretable y efectivo que permita capturar los principales drivers de la demanda energética.
-*******************************************************************************************************************************************
-Objetivo del Proyecto:
-- Modelar demnanda eléctrica diaria a nivel nacional
-- Analizar el impacto de la temperatura en el consumo eléctrico
-- Incorporar efectos calendarios (días hábiles)
-- Evaluar mejoras al incluir dependencia temporal (lag)
+# Forecast de Demanda Eléctrica
 
-Dataset:
-- Fuente: CAMMESA - Base histórica de demanda eléctrica nacional (2017 - 2026)
+Proyecto de análisis y modelado de series temporales aplicado a la demanda eléctrica diaria, utilizando datos históricos y variables explicativas como temperatura y tipo de día.
+
+---
+
+## Objetivo
+
+El objetivo de este proyecto es desarrollar un modelo que permita explicar y predecir la demanda eléctrica diaria, identificando patrones de estacionalidad y variables clave que impactan en el consumo.
+
+Este tipo de modelos es fundamental en el sector energético para:
+- Planificación de generación
+- Optimización de costos
+- Estabilidad del sistema eléctrico
+
+---
+
+## Dataset
+
+- Fuente: Base histórica de demanda eléctrica (2017–2026)
+- Frecuencia: diaria
 - Variables utilizadas:
-- 
-    ° fecha
-    ° demanda (MW)
-    ° temperatura (°C)
-    ° tipo_dia
+  - Demanda total (MW)
+  - Temperatura media (GBA)
+  - Tipo de día (hábil / no hábil)
+  - Fecha
 
-- Fuentes generadas:
-- 
-    ° temp2 -> captura relacón no lineal con temperatura  
-    ° es_habil -> dummy de día laboral  
-    ° lag1 -> demanda del día anterior
+---
 
-*******************************************************************************************************************************************
-Análisis Exploratorio:
+## Metodología
 
-  Demanda en el tiempo:
-  
-  Se observa una fuerte estacionalidad tanto semanal como anual en el set de datos utilizado.
+El proyecto se estructura en tres etapas principales:
 
-  Demanda vs temperatura:
-  
-  Se encuentra una relación en forma de U entre ambas variables, lo que se puede interpretar como:
-  
-    ° Alta demanda en temperaturas bajas (probablemente debido al uso de equipos para calefaccionar)
-    ° Alta demanda en temperaturas altas (probablemente debido al uso de equipos para refrigerar)
-    
-  Esta relación justifica el uso del término cuadrático (temp²).
+### 1. Data Cleaning
+- Selección de variables relevantes
+- Conversión de fechas
+- Generación de nuevas variables:
+  - Temperatura² (relación no lineal)
+  - Indicador de día hábil
+  - Lag de demanda (t-1)
 
-*******************************************************************************************************************************************
-Modelos:
-  Modelo base:
-  
-    demanda ~ temperatura + temp2 + es_habil
+### 2. Exploratory Data Analysis (EDA)
+- Análisis de serie temporal
+- Estacionalidad semanal
+- Estacionalidad mensual
+- Relación demanda vs temperatura
 
-  Modelo mejorado:
-  
-    demanda ~ temperatura + temp2 + es_habil + lag1
+Hallazgo clave:
+Se observa una relación en forma de U entre demanda y temperatura, consistente con mayor consumo en extremos térmicos (frío/calor).
 
-*******************************************************************************************************************************************
-Resultados:
+### 3. Modelado
 
-Modelo          | RMSE | MAE |
+Se entrenaron dos modelos de regresión lineal:
 
-Sin lag         | 1243 | 983 |
+#### Modelo 1
+Variables:
+- Temperatura
+- Temperatura²
+- Día hábil
 
-con lag (lag1)  |  751 | 582 |
+#### Modelo 2 (mejorado)
+Se incorpora:
+- Lag de demanda (t-1)
 
-La inclusión de lag1 reduce significativamente el error, capturandola inercia de la serie temporal.
+---
 
-Insights clave:
+## 📈 Resultados
 
- - La temperatura es el principal driver de la demanda eléctrica.
- - La relación es no lineal -> modelo cuadrático resulta necesario.
- - Los días hábiles incrementan la demanda significativamente.
- - La demanda presenta fuerte autocorrelación (efecto inercia)
+| Modelo | RMSE | MAE |
+|------|------|------|
+| Modelo base | ~1244 | ~983 |
+| Modelo con lag | ~752 | ~582 |
 
-*******************************************************************************************************************************************
-Estructura del proyecto:
+Insight:
+La incorporación del lag mejora significativamente la capacidad predictiva del modelo, capturando la inercia temporal de la demanda.
+
+---
+
+## Visualización
+
+### Demanda real vs predicha
+
+![Forecast](03_output/forecast_plot.png)
+
+---
+
+## Conclusiones
+
+- La demanda eléctrica presenta:
+  - Fuerte estacionalidad semanal
+  - Comportamiento no lineal respecto a la temperatura
+- Variables climáticas + comportamiento pasado explican gran parte del consumo
+- Modelos simples pueden lograr buen desempeño si las features están bien definidas
+
+---
+
+## Tecnologías utilizadas
+
+- R
+- dplyr
+- ggplot2
+- tsibble
+- Metrics
+
+---
+
+## Estructura del proyecto
 
 forecast-demanda-energia/
 
@@ -119,33 +153,20 @@ Cómo correr el proyecto:
    source("02_scripts/run_all.R")
 
 *******************************************************************************************************************************************
-Tecnologías utilizadas:
 
-  ° R
-  
-  ° dplyr
-  
-  ° ggplot2
-  
-  ° tsibble
-  
-  ° Metrics
-  
-  ° openxlsx
+---
 
-Próximos pasos
+## Próximos pasos
 
-  ° Incorporar modelos de series temporales (ARIMA)
-  
-  ° Evaluar modelos de machine learning
-  
-  ° Agregar variables externas (económicas / calendario)
-  
-  ° Implementar forecast a futuro
+- Incorporar modelos de series temporales (ARIMA / Prophet)
+- Evaluar modelos de machine learning
+- Incluir más variables explicativas (económicas, consumo industrial, etc.)
 
-*******************************************************************************************************************************************
-Autor:
+---
 
-Ramiro H. Riquelme
+## Autor
 
-Data Analyst | Modelado de demanda eléctrica
+**Ramiro Riquelme**
+
+Proyecto desarrollado como parte de portfolio en Data Science orientado al sector energético.
+
