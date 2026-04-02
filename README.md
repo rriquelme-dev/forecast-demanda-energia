@@ -63,21 +63,37 @@ Insights clave:
 Estructura del proyecto:
 
 forecast-demanda-energia/
+
 │
+
 ├── 01_data/
+
 │   ├── raw/
+
 │   └── processed/
+
 │
+
 ├── 02_scripts/
+
 │   ├── 01_cleaning.R
+
 │   ├── 02_eda.R
+
 │   ├── 03_modeling.R
+
 │   └── run_all.R
+
 │
+
 ├── outputs/
+
 │   ├── plots/
+
 │   └── results/
+
 │
+
 └── README.md
 
 Cómo correr el proyecto:
@@ -90,17 +106,27 @@ Cómo correr el proyecto:
 
 *******************************************************************************************************************************************
 Tecnologías utilizadas:
+
   ° R
+  
   ° dplyr
+  
   ° ggplot2
+  
   ° tsibble
+  
   ° Metrics
+  
   ° openxlsx
 
 Próximos pasos
+
   ° Incorporar modelos de series temporales (ARIMA)
+  
   ° Evaluar modelos de machine learning
+  
   ° Agregar variables externas (económicas / calendario)
+  
   ° Implementar forecast a futuro
 
 *******************************************************************************************************************************************
