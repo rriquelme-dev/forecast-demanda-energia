@@ -46,7 +46,9 @@ Modelos:
 Resultados:
 
 Modelo          | RMSE | MAE |
+
 Sin lag         | 1243 | 983 |
+
 con lag (lag1)  |  751 | 582 |
 
 La inclusión de lag1 reduce significativamente el error, capturandola inercia de la serie temporal.
