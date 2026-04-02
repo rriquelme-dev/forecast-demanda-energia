@@ -64,7 +64,7 @@ Se incorpora:
 
 ---
 
-## 📈 Resultados
+## Resultados
 
 | Modelo | RMSE | MAE |
 |------|------|------|
